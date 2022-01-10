@@ -1,0 +1,40 @@
+{
+  "name": "around-express",
+  "version": "1.0.0",
+  "description": "training project: bilding backend",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veralea/around-express.git"
+  },
+  "keywords": [
+    "node.js",
+    "express"
+  ],
+  "author": "Vera Poletyuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/veralea/around-express/issues"
+  },
+  "homepage": "https://github.com/veralea/around-express#readme",
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.5.1",
+    "helmet": "^4.6.0",
+    "mongoose": "^6.1.1",
+    "validator": "^13.7.0"
+  }
+}
