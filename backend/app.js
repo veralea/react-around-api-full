@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const route = require('./routes/route');
 const limiter = require('./utils/limiter');
 const { MONGO_SERVER } = require('./utils/constants');
+const { login, createUser } = require('./controllers/users');
 
 const { PORT = 3000 } = process.env;
 
@@ -17,6 +18,8 @@ app.use((req, res, next) => {
 });
 app.use(helmet());
 app.use(express.json());
+app.post('/signin', login);
+app.post('/signup', createUser);
 app.use('/', route);
 app.use(limiter);
 

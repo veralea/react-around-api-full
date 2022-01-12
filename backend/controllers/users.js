@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
   NOT_FOUND_ERROR_CODE,
@@ -68,10 +69,25 @@ const updateAvatar = (req, res) => {
   updateUserInfo(filter, update, res);
 };
 
+const login = (req, res) => {
+  const { email, password } = req.body;
+  return User.findUserByCredentials(email, password)
+  .then((user) => {
+    const token = jwt.sign({ _id: user._id },'some-secret-key',{ expiresIn: '7d' });
+    res.send({ token });
+  })
+  .catch((err) => {
+    res
+      .status(401)
+      .send({ message: err.message });
+  });
+};
+
 module.exports = {
   getAllUsers,
   getOneUser,
   createUser,
   updateProfile,
   updateAvatar,
+  login
 };
