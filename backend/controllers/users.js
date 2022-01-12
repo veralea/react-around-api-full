@@ -41,9 +41,11 @@ const getOneUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-
-  User.create({ name, about, avatar })
+  const { name, about, avatar, email, password } = req.body;
+  bcrypt.hash(password, 10)
+    .then(hash => {
+      User.create({ name, about, avatar, email, password: hash })
+    })
     .then((user) => res.status(CREATED_CODE).send(user))
     .catch((err) => errorHandler(err, res));
 };
