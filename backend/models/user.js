@@ -24,6 +24,20 @@ const userSchema = new mongoose.Schema({
     },
     required: [true, 'User avatar link required'],
   },
+  email: {
+    type: String,
+    validate: {
+      validator(email) {
+        return validator.isEmail(email);
+      }
+    },
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
 });
 
 module.exports = mongoose.model('user', userSchema);

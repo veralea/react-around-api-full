@@ -1,5 +1,5 @@
 {
-  "name": "around-express",
+  "name": "react-around-api-full",
   "version": "1.0.0",
   "description": "training project: bilding backend",
   "main": "app.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/veralea/around-express.git"
+    "url": "git+https://github.com/veralea/react-around-api-full.git"
   },
   "keywords": [
     "node.js",
