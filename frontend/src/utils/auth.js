@@ -5,7 +5,7 @@ function getResponseData(res) {
   if (!res.ok) {
     return Promise.reject(`Error: ${res.status}`); 
   } else {
-    console.log(res);
+    
     return res;
   }
 

@@ -43,13 +43,13 @@ function App() {
     }
   );
 
-  useEffect(() => {
-    api.getCards()    
-    .then((result) => {
-        setCards(result);
-    })
-    .catch((err) => console.log(err))
-  },[]);
+  // useEffect(() => {
+  //   api.getCards()    
+  //   .then((result) => {
+  //       setCards(result);
+  //   })
+  //   .catch((err) => console.log(err))
+  // },[]);
 
   useEffect(() => {
     api.getUserInfo()    

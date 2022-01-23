@@ -27,11 +27,7 @@ const getAllUsers = (req, res) => {
 };
 
 const getProfile = (req, res) => {
-  console.log("getProfile");
-};
-
-const getOneUser = (req, res) => {
-  User.findById(req.params.userId)
+  User.findById(req.user._id)
     .orFail(() => {
       const error = new Error('No user found with that id');
       error.statusCode = NOT_FOUND_ERROR_CODE;
@@ -42,6 +38,19 @@ const getOneUser = (req, res) => {
     })
     .catch((err) => errorHandler(err, res));
 };
+
+// const getOneUser = (req, res) => {
+//   User.findById(req.params.userId)
+//     .orFail(() => {
+//       const error = new Error('No user found with that id');
+//       error.statusCode = NOT_FOUND_ERROR_CODE;
+//       throw error;
+//     })
+//     .then((user) => {
+//       res.send(user);
+//     })
+//     .catch((err) => errorHandler(err, res));
+// };
 
 
 const updateProfile = (req, res) => {
@@ -67,7 +76,7 @@ const updateAvatar = (req, res) => {
 module.exports = {
   getAllUsers,
   getProfile,
-  getOneUser,
+  // getOneUser,
   updateProfile,
   updateAvatar
 };

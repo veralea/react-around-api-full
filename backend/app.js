@@ -46,12 +46,7 @@ app.use(function(req, res, next) {
 });
 
 mongoose.connect(MONGO_SERVER);
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: '61bf287a2ab857e35fecb13c',
-//   };
-//   next();
-// });
+
 app.use(helmet());
 app.use(express.json());
 

@@ -9,9 +9,11 @@ class Api {
           return Promise.reject(`Error: ${res.status}`);
       }
       return res.json();
+      // return res;
   }
   
     getUserInfo() {
+      console.log(this._headers);
       return fetch(`${this._baseUrl}/users/me`,{
         headers: this._headers
       }).then(res => this._getResponseData(res));
@@ -74,8 +76,9 @@ class Api {
     //baseUrl: "https://around.nomoreparties.co/v1/group-12",
     baseUrl: 'http://localhost:3000',
     headers: {
-      authorization: localStorage.getItem("token"),
-      "Content-Type": "application/json"
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem("token")}`,
     }
   }); 
   
