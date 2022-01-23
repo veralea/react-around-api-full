@@ -1,0 +1,23 @@
+.access__input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #CCCCCC;
+    background-color: inherit;
+    color: inherit;
+    font-size: 14px;
+    line-height: 1.21;
+    font-weight: 400;
+    padding-left: 5;
+    padding-bottom: 13px;
+    padding-top: 13px;
+    margin-bottom: 17px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0 30px black inset !important;
+    box-shadow: 0 0 0 0px black inset !important;  
+}

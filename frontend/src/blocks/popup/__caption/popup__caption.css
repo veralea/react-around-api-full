@@ -1,0 +1,12 @@
+.popup__caption {
+  margin: 5px 45px 0;
+  font-size: 12px;
+  line-height: 1.21;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__caption {
+    margin: 8px 28px 0;
+  }
+}

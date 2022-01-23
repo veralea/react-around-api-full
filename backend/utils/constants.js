@@ -5,6 +5,7 @@ const CREATED_CODE = 201;
 const SUCCESS_CODE = 200;
 const MONGO_SERVER = 'mongodb://localhost:27017/aroundb';
 
+
 module.exports = {
   INTERNAL_SERVER_ERROR_CODE,
   NOT_FOUND_ERROR_CODE,

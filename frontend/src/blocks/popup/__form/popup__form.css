@@ -1,0 +1,22 @@
+.popup__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  width: 430px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  padding: 36px;
+  margin: 0 45px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__form {
+    width: 282px;
+    padding: 22px;
+    margin: 0;
+  }
+}

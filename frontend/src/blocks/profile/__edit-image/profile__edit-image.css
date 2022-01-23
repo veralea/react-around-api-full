@@ -1,0 +1,8 @@
+.profile__edit-image {
+  height: inherit;
+  background-image: url("../../../images/edit.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position:top;
+  margin-top: 5px;
+}

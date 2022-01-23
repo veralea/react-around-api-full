@@ -1,0 +1,8 @@
+.profile__add-image {
+  height: 70%;
+  background-image: url("../../../images/add.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top;
+  margin-bottom: 5px;
+}

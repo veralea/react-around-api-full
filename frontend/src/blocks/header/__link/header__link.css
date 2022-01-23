@@ -1,0 +1,12 @@
+.header__link {
+  color: white;
+  font-size: 18px;
+  line-height: 1.22;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header__link:hover {
+  opacity: 0.8;
+}
