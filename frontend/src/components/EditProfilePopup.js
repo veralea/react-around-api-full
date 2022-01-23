@@ -5,11 +5,11 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function EditProfilePopup(props) {
   const currentUser = useContext(CurrentUserContext);
 
-  const [name, setName] = useState(currentUser.name);
+  const [userName, setUserName] = useState(currentUser.name);
   const [description, setDescription] = useState("joker")
   
   function handleNameChange(e) {
-    setName(e.target.value);
+    setUserName(e.target.value);
   }
 
   function handleJobChange(e) {
@@ -20,13 +20,13 @@ function EditProfilePopup(props) {
     e.preventDefault();
   
     props.onUpdateUser({
-      name,
+      userName,
       about: description,
     });
   }
 
   useEffect(() => {
-    setName(currentUser.name);
+    setUserName(currentUser.name);
     setDescription(currentUser.about);
     
   }, [currentUser, props.isOpen]);
@@ -41,7 +41,7 @@ function EditProfilePopup(props) {
       onSubmit={handleSubmit}
     >
       <input type="text" className="popup__input" onChange = {handleNameChange}
-        name="name" value={name} minLength="2" maxLength="40" required />
+        name="name" value={userName} minLength="2" maxLength="40" required />
       <span className="popup__error"></span>
       <input type="text" className="popup__input" onChange = {handleJobChange}
         name="job" value={description} minLength="2" maxLength="200" required />

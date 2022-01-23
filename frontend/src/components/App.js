@@ -20,7 +20,6 @@ import * as auth from '../utils/auth';
 function App() {
   const history = useHistory();
   const token = localStorage.getItem('token');
-  console.log("token from App",token);
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   
   const [textHeaderLink, setTextHeaderLink] = useState("");
@@ -33,30 +32,22 @@ function App() {
   const [cards , setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
-  const [currentUser, setCurrentUser] = useState(
-    {
-      // name: 'Vera Lea', 
-      // about: 'Teacher', 
-      // avatar: 'https://cdn.pixabay.com/photo/2018/01/17/07/06/laptop-3087585_960_720.jpg', 
-      // // _id: 'c77e00360c598eb801029d0f', 
-      // cohort: 'group-12'
-    }
-  );
-
-  // useEffect(() => {
-  //   api.getCards()    
-  //   .then((result) => {
-  //       setCards(result);
-  //   })
-  //   .catch((err) => console.log(err))
-  // },[]);
+  const [currentUser, setCurrentUser] = useState({name: "noting"});
 
   useEffect(() => {
     api.getUserInfo()    
     .then((result) => {
-      setCurrentUser(result); 
+      setCurrentUser(result);
     })
     .catch((err) => console.log(err));
+  },[]);
+
+  useEffect(() => {
+    api.getCards()    
+    .then((result) => {
+        setCards(result);
+    })
+    .catch((err) => console.log(err))
   },[]);
 
   function handleRegisterSubmit({ icon,text }) {
@@ -122,7 +113,9 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    console.log(card._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
+    console.log(isLiked);
     api.changeLikes(card._id, !isLiked ? "PUT" : "DELETE").then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     })
@@ -163,7 +156,6 @@ function App() {
   function register(e,email, password) {
     e.preventDefault();
     auth.register(email, password).then((res) => {
-      console.log("yes");
       handleRegisterSubmit(
         {
           icon:"popup__icon", 
@@ -172,7 +164,6 @@ function App() {
       setIsRegistered(true); 
     })
     .catch((err) => {
-      console.log(err);
       handleRegisterSubmit(
         {
           icon:"popup__icon_unsuccess", 
@@ -202,29 +193,23 @@ function App() {
     });  
   }
 
-  useEffect(() => {
-    
+  useEffect(() => {  
      if (token) {
-      console.log("last useEffect is token");
-      console.log("token from last useEffect", token);
        auth.getContent(token)
        .then(result => result.json())
        .then((res) => {
-        console.log("is res from getContent", res);
-    //     localStorage.setItem('email',res.data.email);
+        localStorage.setItem('email',res.email);
+
        })
        .catch((err) => {
-        console.log("no res from getContent", err);
-    //     handleRegisterSubmit(
-    //       {
-    //         icon:"popup__icon_unsuccess", 
-    //         // text: "Oops, something went wrong! Please try again."
-    //         text: "error from last useEffect"
-    //       });
+        handleRegisterSubmit(
+          {
+            icon:"popup__icon_unsuccess", 
+            text: "Oops, something went wrong! Please try again."
+          });
        });
      }else {
-      console.log("last useEffect no token");
-    //   localStorage.removeItem('email');
+      localStorage.removeItem('email');
      }
   },[]);
 

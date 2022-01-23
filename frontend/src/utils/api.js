@@ -9,13 +9,11 @@ class Api {
           return Promise.reject(`Error: ${res.status}`);
       }
       return res.json();
-      // return res;
   }
   
     getUserInfo() {
-      console.log(this._headers);
       return fetch(`${this._baseUrl}/users/me`,{
-        headers: this._headers
+        headers: this._headers,
       }).then(res => this._getResponseData(res));
     }
   
@@ -55,6 +53,7 @@ class Api {
     }
   
     changeLikes(cardId, method) {
+      console.log(method);
       return fetch (`${this._baseUrl}/cards/likes/${cardId}`,{
         method: method,
         headers: this._headers
