@@ -19,7 +19,6 @@ import * as auth from '../utils/auth';
 
 function App() {
   const history = useHistory();
-  const token = localStorage.getItem('token');
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   
   const [textHeaderLink, setTextHeaderLink] = useState("");
@@ -33,9 +32,10 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [currentUser, setCurrentUser] = useState({name: "noting"});
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
-    api.getUserInfo()    
+    api(token).getUserInfo()    
     .then((result) => {
       setCurrentUser(result);
     })
@@ -43,7 +43,7 @@ function App() {
   },[]);
 
   useEffect(() => {
-    api.getCards()    
+    api(token).getCards()    
     .then((result) => {
         setCards(result);
     })
@@ -95,7 +95,8 @@ function App() {
   }
 
   function handleUpdateUser({name, about}) {
-    api.setUserInfo({name, about})
+    console.log(name, about);
+    api(token).setUserInfo({name, about})
     .then((result) => {
       setCurrentUser(result);
       closeAllPopups();
@@ -104,7 +105,7 @@ function App() {
   }
 
   function handleUpdateAvatar(avatar) {
-    api.setUserAvatar(avatar)
+    api(token).setUserAvatar(avatar)
     .then((result) => {
       setCurrentUser(result);
       closeAllPopups();    
@@ -116,14 +117,14 @@ function App() {
     console.log(card._id);
     const isLiked = card.likes.some(i => i === currentUser._id);
     console.log(isLiked);
-    api.changeLikes(card._id, !isLiked ? "PUT" : "DELETE").then((newCard) => {
+    api(token).changeLikes(card._id, !isLiked ? "PUT" : "DELETE").then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     })
     .catch((err) => console.log(err));
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
+    api(token).deleteCard(card._id).then(() => {
       const newCards = cards.filter((c) => c._id !== card._id);
       setCards(newCards);
     })
@@ -131,7 +132,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(cardData) { 
-    api.addNewCard({cardData})
+    api(token).addNewCard({cardData})
     .then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
@@ -147,6 +148,7 @@ function App() {
   }
 
   function handleLogout() {
+    setToken(null);
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('isLoggedIn');
@@ -178,6 +180,7 @@ function App() {
     auth.authorize(email, password)
     .then(result => result.json())
     .then((res) => {
+        setToken(res.token);
         localStorage.setItem('token', res.token);
         localStorage.setItem('isLoggedIn', true);
         handleLogin(e,email);
@@ -193,13 +196,14 @@ function App() {
     });  
   }
 
-  useEffect(() => {  
+  useEffect(() => { 
+    console.log("token",token); 
      if (token) {
        auth.getContent(token)
        .then(result => result.json())
        .then((res) => {
         localStorage.setItem('email',res.email);
-
+        setCurrentUser(res);
        })
        .catch((err) => {
         handleRegisterSubmit(
@@ -211,7 +215,7 @@ function App() {
      }else {
       localStorage.removeItem('email');
      }
-  },[]);
+  },[token]);
 
   function updateHeader(text) {
     setTextHeaderLink(text); 
