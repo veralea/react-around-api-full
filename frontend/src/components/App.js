@@ -95,7 +95,6 @@ function App() {
   }
 
   function handleUpdateUser({name, about}) {
-    console.log(name, about);
     api(token).setUserInfo({name, about})
     .then((result) => {
       setCurrentUser(result);
@@ -114,9 +113,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    console.log(card._id);
     const isLiked = card.likes.some(i => i === currentUser._id);
-    console.log(isLiked);
     api(token).changeLikes(card._id, !isLiked ? "PUT" : "DELETE").then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     })
@@ -197,7 +194,6 @@ function App() {
   }
 
   useEffect(() => { 
-    console.log("token",token); 
      if (token) {
        auth.getContent(token)
        .then(result => result.json())
@@ -223,6 +219,7 @@ function App() {
 
 
   useEffect(() => {
+    console.log(token);
     if (token) {
       updateHeader("Log out");
     } else {

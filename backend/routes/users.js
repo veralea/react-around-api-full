@@ -6,7 +6,6 @@ const {
 const router = express.Router();
 
 router.get('/', getAllUsers);
-// router.get('/:userId', getOneUser);
 router.get('/me', getProfile);
 router.patch('/me', updateProfile);
 router.patch('/me/avatar', updateAvatar);

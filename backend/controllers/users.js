@@ -4,70 +4,66 @@ const {
   SUCCESS_CODE,
 } = require('../utils/constants');
 const errorHandler = require('../utils/functions');
+const NotFoundError = require('../errors/not-found-err');
+const RightsError = require('../errors/rights-err');
+const DataError = require('../errors/data-err');
 
 
-const updateUserInfo = (filter, update, res) => {
+const updateUserInfo = (filter, update, res, next) => {
   User.findOneAndUpdate(filter, update, {
     new: true,
     runValidators: true,
   })
     .orFail(() => {
-      const error = new Error('No user found with that id');
-      error.statusCode = NOT_FOUND_ERROR_CODE;
-      throw error;
+      throw new NotFoundError('No user found with that id');
     })
     .then((user) => res.status(SUCCESS_CODE).send(user))
-    .catch((err) => errorHandler(err, res));
+    .catch(next);
 };
 
-const getAllUsers = (req, res) => {
+const getAllUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.status(SUCCESS_CODE).send(users))
-    .catch((err) => errorHandler(err, res));
+    .then((users) => {
+      if(!users) {
+        throw new RightsError('No rights to receive all users');
+      }
+      res.status(SUCCESS_CODE).send(users);
+    })
+    .catch(next);
 };
 
-const getProfile = (req, res) => {
+const getProfile = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      const error = new Error('No user found with that id');
-      error.statusCode = NOT_FOUND_ERROR_CODE;
-      throw error;
+      throw new NotFoundError('No user found with that id');
     })
     .then((user) => {
       res.send(user);
     })
-    .catch((err) => errorHandler(err, res));
+    .catch(next);
 };
 
-// const getOneUser = (req, res) => {
-//   User.findById(req.params.userId)
-//     .orFail(() => {
-//       const error = new Error('No user found with that id');
-//       error.statusCode = NOT_FOUND_ERROR_CODE;
-//       throw error;
-//     })
-//     .then((user) => {
-//       res.send(user);
-//     })
-//     .catch((err) => errorHandler(err, res));
-// };
-
-
-const updateProfile = (req, res) => {
+const updateProfile = (req, res, next) => {
   const { name, about } = req.body;
-
   const filter = { _id: req.user._id };
   const update = { name, about };
 
+  if (!filter || !update) {
+    const err = new DataError('Invalid profile data sent!');
+    next(err);
+  }
   updateUserInfo(filter, update, res);
 };
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   const filter = { _id: req.user._id };
   const update = { avatar };
-
+  if (!filter || !update) {
+    const err = new DataError('Invalid avatar data sent!');
+    next(err);
+  }
   updateUserInfo(filter, update, res);
 };
 
@@ -76,7 +72,6 @@ const updateAvatar = (req, res) => {
 module.exports = {
   getAllUsers,
   getProfile,
-  // getOneUser,
   updateProfile,
   updateAvatar
 };
