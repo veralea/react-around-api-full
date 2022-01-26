@@ -53,7 +53,6 @@ class Api {
     }
   
     changeLikes(cardId, method) {
-      console.log(method);
       return fetch (`${this._baseUrl}/cards/likes/${cardId}`,{
         method: method,
         headers: this._headers

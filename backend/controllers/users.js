@@ -1,9 +1,5 @@
 const User = require('../models/user');
-const {
-  NOT_FOUND_ERROR_CODE,
-  SUCCESS_CODE,
-} = require('../utils/constants');
-const errorHandler = require('../utils/functions');
+const { SUCCESS_CODE } = require('../utils/constants');
 const NotFoundError = require('../errors/not-found-err');
 const RightsError = require('../errors/rights-err');
 const DataError = require('../errors/data-err');

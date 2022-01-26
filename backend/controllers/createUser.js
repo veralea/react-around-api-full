@@ -8,13 +8,10 @@ const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
   bcrypt.hash(password, 10)
     .then(hash => {
-      User.create({ name, about, avatar, email, password: hash })
+        User.create({ name, about, avatar, email, password: hash })
     })
     .then((user) => {
-      if(!user) {
-        throw new ExistError("User with this email exists in database")
-      }
-      res.status(CREATED_CODE).send(user)
+      res.status(CREATED_CODE).send(user);
     })
     .catch(next);
 };

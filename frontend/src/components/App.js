@@ -219,7 +219,6 @@ function App() {
 
 
   useEffect(() => {
-    console.log(token);
     if (token) {
       updateHeader("Log out");
     } else {
