@@ -14,3 +14,6 @@
 /backend/.DS_Store
 /backend/.idea
 /backend/.vscode
+
+# Environment variables
+/backend/.env
