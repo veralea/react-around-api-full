@@ -6,6 +6,7 @@
 # Dependency directory
 /backend/node_modules
 /frontend/node_modules
+/frontend-localy
 
 # Optional npm cache directory
 /backend/.npm
