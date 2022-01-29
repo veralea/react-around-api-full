@@ -4,7 +4,6 @@ const NotFoundError = require('../errors/not-found-err');
 const RightsError = require('../errors/rights-err');
 const DataError = require('../errors/data-err');
 
-
 const updateUserInfo = (filter, update, res, next) => {
   User.findOneAndUpdate(filter, update, {
     new: true,
@@ -20,7 +19,7 @@ const updateUserInfo = (filter, update, res, next) => {
 const getAllUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
-      if(!users) {
+      if (!users) {
         throw new RightsError('No rights to receive all users');
       }
       res.status(SUCCESS_CODE).send(users);
@@ -63,11 +62,9 @@ const updateAvatar = (req, res, next) => {
   updateUserInfo(filter, update, res);
 };
 
-
-
 module.exports = {
   getAllUsers,
   getProfile,
   updateProfile,
-  updateAvatar
+  updateAvatar,
 };

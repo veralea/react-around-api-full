@@ -4,17 +4,19 @@ const { CREATED_CODE } = require('../utils/constants');
 const ExistError = require('../errors/exist-err');
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
   bcrypt.hash(password, 10)
-    .then(hash => {
-      return  User.create({ name, about, avatar, email, password: hash })
-    })
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash,
+    }))
     .then((user) => {
       res.status(CREATED_CODE).send(user);
     })
-    .catch(err => {
-      if(err.code === 11000){
-        const error =  new ExistError('User already exists');
+    .catch((err) => {
+      if (err.code === 11000) {
+        const error = new ExistError('User already exists');
         next(error);
       }
       next(err);
@@ -22,5 +24,5 @@ const createUser = (req, res, next) => {
 };
 
 module.exports = {
-  createUser
-}
+  createUser,
+};

@@ -34,19 +34,19 @@ const userSchema = new mongoose.Schema({
     validate: {
       validator(email) {
         return validator.isEmail(email);
-      }
+      },
     },
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
     required: true,
-    select: false
+    select: false,
   },
 });
 
-userSchema.statics.findUserByCredentials = function findUserByCredentials (email, password, next) {
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password, next) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {

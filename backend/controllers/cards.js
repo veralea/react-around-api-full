@@ -13,7 +13,8 @@ const getAllCards = (req, res, next) => {
       if (!cards) {
         throw new RightsError('no rights to receive all cards');
       }
-      res.status(SUCCESS_CODE).send(cards)})
+      res.status(SUCCESS_CODE).send(cards);
+    })
     .catch(next);
 };
 
@@ -36,7 +37,7 @@ const createCard = (req, res, next) => {
       if (!user) {
         throw new DataError('Invalid new card data');
       }
-      res.status(CREATED_CODE).send(user)
+      res.status(CREATED_CODE).send(user);
     })
     .catch(next);
 };
@@ -47,13 +48,13 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-  .then((card) => {
-    if (!card) {
-      throw new NotFoundError('No card found with that id');
-    }
-    res.status(SUCCESS_CODE).send((card));
-  })
-  .catch(next);
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('No card found with that id');
+      }
+      res.status(SUCCESS_CODE).send((card));
+    })
+    .catch(next);
 };
 
 const dislikeCard = (req, res, next) => {
@@ -62,22 +63,27 @@ const dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-  .then((card) => {
-    if (!card) {
-      throw new NotFoundError('No card found with that id');
-    }
-    res.status(SUCCESS_CODE).send(card);
-  })
-  .catch(next);
+    .then((card) => {
+      if (!card) {
+        throw new NotFoundError('No card found with that id');
+      }
+      res.status(SUCCESS_CODE).send(card);
+    })
+    .catch(next);
 };
 
 const deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
-    .then((user) => {
-      if (!user) {
+  const { cardId, userId } = req.params;
+
+  Card.findByIdAndRemove(cardId)
+    .then((card) => {
+      if (card.owner.valueOf() !== userId) {
+        throw new RightsError("This card isn't belongs to this user");
+      }
+      if (!card) {
         throw new NotFoundError('No card found with that id');
       }
-      res.status(SUCCESS_CODE).send({ data: user })
+      res.status(SUCCESS_CODE).send({ data: card });
     })
     .catch(next);
 };
